@@ -1,0 +1,46 @@
+name: Fullstack CI
+
+on:
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_DATABASE: laravel
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+    - name: Instalar dependências Laravel
+      run: |
+        cd backend
+        cp .env.example .env
+        composer install
+        php artisan key:generate
+    - name: Rodar testes Laravel
+      run: cd backend && php artisan test
+
+  react-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Instalar dependências React
+      run: cd frontend && npm install
+    - name: Rodar testes React
+      run: cd frontend && npm test -- --watchAll=false
