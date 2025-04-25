@@ -29,12 +29,14 @@ jobs:
       - name: Instalar dependências Laravel
         working-directory: backend
         run: |
+          cp .env.example .env
           composer install --no-dev --optimize-autoloader
+          php artisan key:generate
           php artisan config:cache
           php artisan route:cache
           php artisan storage:link
 
-      - name: Merge para branch production
+      - name: Merge main → production
         run: |
           git checkout production || git checkout -b production
           git merge main --no-edit
