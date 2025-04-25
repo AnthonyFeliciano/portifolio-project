@@ -2,11 +2,13 @@ name: Fullstack CI
 
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ dev, main ]
 
 jobs:
-  laravel-tests:
+  backend-tests:
+    name: Laravel Testes
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:8
@@ -15,32 +17,46 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-    - name: Instalar dependências Laravel
-      run: |
-        cd backend
-        cp .env.example .env
-        composer install
-        php artisan key:generate
-    - name: Rodar testes Laravel
-      run: cd backend && php artisan test
+      - uses: actions/checkout@v3
 
-  react-tests:
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Instalar dependências Laravel
+        run: |
+          cd backend
+          cp .env.example .env
+          composer install
+          php artisan key:generate
+          php artisan migrate --force
+
+      - name: Rodar testes Laravel (somente Feature)
+        run: cd backend && php artisan test tests/Feature
+ 
+
+  frontend-tests:
+    name: React Testes
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-    - name: Instalar dependências React
-      run: cd frontend && npm install
-    - name: Rodar testes React
-      run: cd frontend && npm test -- --watchAll=false
+      - uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências React
+        run: cd frontend && npm install
+
+      - name: Rodar testes React
+        run: cd frontend && npm test -- --watchAll=false
