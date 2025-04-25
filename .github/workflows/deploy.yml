@@ -40,8 +40,8 @@ jobs:
         run: |
           git checkout production || git checkout -b production
           git merge origin/main --no-edit
-          git add -f frontend/build/
-          git add -f backend/vendor/
-          git add -f backend/bootstrap/cache/
-          git commit -m "build: versão gerada automaticamente pelo deploy.yml"
+          git add -f frontend/build/ || true
+          git add -f backend/vendor/ || true
+          git add -f backend/bootstrap/cache/ || true
+          git commit -m "build: versão gerada automaticamente pelo deploy.yml" || echo "Nenhum commit necessário"
           git push origin production
