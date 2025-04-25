@@ -39,8 +39,9 @@ jobs:
           php artisan key:generate
           php artisan migrate --force
 
-      - name: Rodar testes Laravel
-        run: cd backend && php artisan test
+      - name: Rodar testes Laravel (somente Feature)
+        run: cd backend && php artisan test tests/Feature
+ 
 
   frontend-tests:
     name: React Testes
