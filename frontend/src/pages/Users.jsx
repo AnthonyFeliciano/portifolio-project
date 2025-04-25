@@ -36,7 +36,7 @@ function Users() {
 
   return (
     <section className="user-list">
-      <h1 className="section-title">Usuários</h1>
+      <h1 className="section-title">Usuários TESTETESTETSTETS</h1>
       <div className="card-container">
         {users.length > 0 ? (
           users.map(user => (
