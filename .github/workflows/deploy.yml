@@ -36,9 +36,6 @@ jobs:
           php artisan route:cache
           php artisan storage:link
 
-      - name: Buscar branch main localmente
-        run: git fetch origin main:main
-
       - name: Merge main → production
         run: |
           git checkout production || git checkout -b production
