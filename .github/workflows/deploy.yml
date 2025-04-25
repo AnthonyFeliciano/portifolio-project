@@ -1,0 +1,45 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar projeto
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Instalar dependências React
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: Instalar dependências Laravel
+        working-directory: backend
+        run: |
+          composer install --no-dev --optimize-autoloader
+          php artisan config:cache
+          php artisan route:cache
+          php artisan storage:link
+
+      - name: Merge para branch production
+        run: |
+          git checkout production || git checkout -b production
+          git merge main --no-edit
+          git add -f frontend/build/
+          git add -f backend/vendor/
+          git add -f backend/bootstrap/cache/
+          git commit -m "build: versão gerada automaticamente pelo deploy.yml"
+          git push origin production
