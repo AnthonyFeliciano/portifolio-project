@@ -49,6 +49,10 @@ jobs:
           git checkout production || git checkout -b production origin/production
           git merge origin/main --no-edit
 
+      - name: Puxar atualizações da production (caso existam)
+        run: |
+          git pull origin production --allow-unrelated-histories || true
+
       - name: Push para production
         run: |
           git push origin production
