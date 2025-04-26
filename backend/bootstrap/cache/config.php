@@ -7,8 +7,8 @@
   'app' => 
   array (
     'name' => 'Laravel',
-    'env' => 'production',
-    'debug' => false,
+    'env' => 'local',
+    'debug' => true,
     'url' => 'http://localhost',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
@@ -17,7 +17,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => NULL,
+    'key' => 'base64:KDjv+0+cxgyRAS7eE1uzKsKryl0Y1aWGUWIBjgdF9nM=',
     'previous_keys' => 
     array (
     ),
@@ -192,8 +192,8 @@
       'dynamodb' => 
       array (
         'driver' => 'dynamodb',
-        'key' => NULL,
-        'secret' => NULL,
+        'key' => '',
+        'secret' => '',
         'region' => 'us-east-1',
         'table' => 'cache',
         'endpoint' => NULL,
@@ -341,7 +341,7 @@
       array (
         'driver' => 'local',
         'root' => '/home/runner/work/portifolio-project/portifolio-project/backend/storage/app/public',
-        'url' => '/storage',
+        'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
         'report' => false,
@@ -349,10 +349,10 @@
       's3' => 
       array (
         'driver' => 's3',
-        'key' => NULL,
-        'secret' => NULL,
-        'region' => NULL,
-        'bucket' => NULL,
+        'key' => '',
+        'secret' => '',
+        'region' => 'us-east-1',
+        'bucket' => '',
         'url' => NULL,
         'endpoint' => NULL,
         'use_path_style_endpoint' => false,
@@ -370,7 +370,7 @@
     'default' => 'stack',
     'deprecations' => 
     array (
-      'channel' => 'null',
+      'channel' => NULL,
       'trace' => false,
     ),
     'channels' => 
@@ -405,7 +405,7 @@
         'url' => NULL,
         'username' => 'Laravel Log',
         'emoji' => ':boom:',
-        'level' => 'critical',
+        'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'papertrail' => 
@@ -474,7 +474,7 @@
         'scheme' => NULL,
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => 2525,
+        'port' => '2525',
         'username' => NULL,
         'password' => NULL,
         'timeout' => NULL,
@@ -530,7 +530,7 @@
     'from' => 
     array (
       'address' => 'hello@example.com',
-      'name' => 'Example',
+      'name' => 'Laravel',
     ),
     'markdown' => 
     array (
@@ -571,8 +571,8 @@
       'sqs' => 
       array (
         'driver' => 'sqs',
-        'key' => NULL,
-        'secret' => NULL,
+        'key' => '',
+        'secret' => '',
         'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
         'queue' => 'default',
         'suffix' => NULL,
@@ -609,8 +609,8 @@
     ),
     'ses' => 
     array (
-      'key' => NULL,
-      'secret' => NULL,
+      'key' => '',
+      'secret' => '',
       'region' => 'us-east-1',
     ),
     'resend' => 
@@ -651,7 +651,7 @@
   ),
   'broadcasting' => 
   array (
-    'default' => 'null',
+    'default' => 'log',
     'connections' => 
     array (
       'reverb' => 
@@ -742,7 +742,7 @@
     'driver' => 'bcrypt',
     'bcrypt' => 
     array (
-      'rounds' => 12,
+      'rounds' => '12',
       'verify' => true,
       'limit' => NULL,
     ),
