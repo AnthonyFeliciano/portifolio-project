@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH_FRONT=/home1/anthon99/project/frontend/
+    - export DEPLOYPATH_BACK=/home1/anthon99/project/backend/
+    - /bin/cp -R frontend/build/* $DEPLOYPATH_FRONT
+    - /bin/cp -R backend/* $DEPLOYPATH_BACK
