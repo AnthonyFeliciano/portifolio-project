@@ -36,12 +36,19 @@ jobs:
           php artisan route:cache
           php artisan storage:link
 
-      - name: Merge main → production
+      - name: Commitar alterações locais (build e cache)
         run: |
-          git checkout production || git checkout -b production
+          git add -f frontend/build/
+          git add -f backend/vendor/
+          git add -f backend/bootstrap/cache/
+          git commit -m "build: atualiza build e cache antes do deploy" || echo "Nenhum commit necessário"
+
+      - name: Checkout production e merge main → production
+        run: |
+          git fetch origin
+          git checkout production || git checkout -b production origin/production
           git merge origin/main --no-edit
-          git add -f frontend/build/ || true
-          git add -f backend/vendor/ || true
-          git add -f backend/bootstrap/cache/ || true
-          git commit -m "build: versão gerada automaticamente pelo deploy.yml" || echo "Nenhum commit necessário"
+
+      - name: Push para production
+        run: |
           git push origin production
